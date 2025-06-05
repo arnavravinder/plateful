@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plateful - Reduce Waste. Nourish Communities.</title>
+    <meta name="description" content="Plateful bridges the gap between surplus restaurant food and community needs, reducing waste while fighting hunger.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        html.lenis {
+          height: auto;
+        }
+        .lenis.lenis-smooth {
+          scroll-behavior: auto !important;
+        }
+        .lenis.lenis-smooth [data-lenis-prevent] {
+          overscroll-behavior: contain;
+        }
+        .lenis.lenis-stopped {
+          overflow: hidden;
+        }
+        .loading-active, .loading-active body {
+            overflow: hidden !important;
+        }
+    </style>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+</head>
+<body>
+    <div id="page-loader" class="page-loader">
+        <div class="loader-content">
+            <video id="loader-video" width="150" height="150" autoplay loop muted playsinline>
+                <source src="assets/loader.webm" type="video/webm">
+                Your browser does not support the video tag.
+            </video>
+            <p class="loader-text">Loading Plateful...</p>
+        </div>
+    </div>
+
+    <div id="app" class="main-content">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <h1 class="logo">Plateful</h1>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-links">
+                        <a href="#about">About Us</a>
+                        <a href="#features">Features</a>
+                        <a href="#how-it-works">How It Works</a>
+                        <a href="#faq">FAQ</a>
+                        <a href="#login" class="login-link">Login</a>
+                    </div>
+                    <button @click="toggleMobileMenu" class="mobile-menu-btn" aria-label="Toggle menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-menu" :class="{ active: mobileMenuOpen }">
+                <a href="#about" @click="closeMobileMenuAndScroll('#about')">About Us</a>
+                <a href="#features" @click="closeMobileMenuAndScroll('#features')">Features</a>
+                <a href="#how-it-works" @click="closeMobileMenuAndScroll('#how-it-works')">How It Works</a>
+                <a href="#faq" @click="closeMobileMenuAndScroll('#faq')">FAQ</a>
+                <a href="#login" @click="closeMobileMenuAndScroll('#login')">Login</a>
+                <button class="cta-btn restaurant-signup" @click="closeMobileMenuAndScroll('#contact')">Restaurant Sign-up</button>
+            </div>
+        </nav>
+
+        <main>
+            <section id="hero" class="hero" data-scroll-reveal>
+                <div class="hero-container">
+                    <div class="hero-content">
+                        <h1 class="hero-title">
+                            <span class="hero-line hero-line-1">
+                                <span class="scroll-reveal-word" data-scroll="reduce">Reduce</span>
+                                <span class="word-space"> </span>
+                                <span class="scroll-reveal-word" data-scroll="waste">Waste.</span>
+                            </span>
+                            <span class="hero-line hero-line-2">
+                                <span class="scroll-reveal-word accent-text" data-scroll="nourish">Nourish</span>
+                                <span class="word-space"> </span>
+                                <span class="scroll-reveal-word accent-text" data-scroll="communities">Communities.</span>
+                            </span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Transform surplus restaurant food into community impact. 
+                            Join the movement against food waste.
+                        </p>
+                        <div class="hero-actions">
+                            <button class="cta-btn primary">
+                                <i class="fas fa-search"></i>
+                                Find Food Near You
+                            </button>
+                            <button class="cta-btn secondary">
+                                <i class="fas fa-store"></i>
+                                Restaurant Sign-up
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <div class="hero-graphic">
+                            <div class="floating-element icon-pos-1">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="floating-element icon-pos-2 delay-1">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="floating-element icon-pos-3 delay-2">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="floating-element icon-pos-4 delay-3">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="floating-element icon-pos-5 delay-4">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="floating-element icon-pos-6 delay-5">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                             <div class="floating-element icon-pos-7 delay-6">
+                                <i class="fas fa-hand-holding-heart"></i>
+                            </div>
+                            <div class="floating-element icon-pos-8 delay-7">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="central-circle">
+                                <i class="fas fa-recycle"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="about" class="problem-solution" data-scroll-reveal>
+                <div class="container">
+                    <div class="section-content">
+                        <h2 class="section-title">The Problem We're Solving</h2>
+                        <p class="problem-text">
+                            <span class="highlight-text">40%</span> of food goes uneaten while hunger persists. Plateful bridges the gap between 
+                            surplus restaurant food and community needs, creating a sustainable solution for both waste and hunger.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="features" class="features-sticky-container">
+                <div class="features-sticky-content">
+                    <div class="container features-title-container">
+                         <h2 class="section-title">Key Features</h2>
+                    </div>
+                    <div class="features-horizontal-scroll-wrapper">
+                        <div class="features-grid-horizontal">
+                            <div class="feature-card" v-for="feature in features" :key="feature.id">
+                                <div class="feature-icon">
+                                    <i :class="feature.icon"></i>
+                                </div>
+                                <h3 class="feature-title">{{ feature.title }}</h3>
+                                <p class="feature-description">{{ feature.description }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="how-it-works" class="how-it-works-sticky-container">
+                 <div class="how-it-works-sticky-content">
+                    <div class="container how-it-works-title-container">
+                        <h2 class="section-title">How It Works</h2>
+                    </div>
+                    <div class="steps-horizontal-scroll-wrapper">
+                        <div class="steps-container-horizontal">
+                            <div class="step" v-for="(step, index) in steps" :key="step.id" :data-step-index="index" :style="{'--step-index': index, '--step-total': steps.length}">
+                                <div class="step-number">{{ step.id }}</div>
+                                <div class="step-content">
+                                    <h3 class="step-title">{{ step.title }}</h3>
+                                    <p class="step-description">{{ step.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faq" class="cta-section" data-scroll-reveal>
+                <div class="container">
+                    <div class="cta-content">
+                        <h2 class="cta-title">Ready to Make an Impact?</h2>
+                        <p class="cta-subtitle">Join thousands reducing food waste across India</p>
+                        <div class="cta-actions">
+                            <button class="cta-btn primary large">
+                                <i class="fas fa-search"></i>
+                                Explore Platform
+                            </button>
+                            <button class="cta-btn secondary large">
+                                <i class="fas fa-utensils"></i>
+                                Partner with Us
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer id="contact" class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <h3 class="footer-logo">Plateful</h3>
+                        <p class="footer-tagline">Reducing waste, nourishing communities</p>
+                        <p class="built-in">Built with ♥️ in Bengaluru</p>
+                    </div>
+                    <div class="footer-links-group">
+                        <div class="footer-column">
+                            <h4>Company</h4>
+                            <a href="#about">About Us</a>
+                            <a href="#contact">Contact</a>
+                            <a href="#">Blog</a>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Legal</h4>
+                            <a href="#">Privacy Policy</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Cookie Policy</a>
+                        </div>
+                        <div class="footer-column">
+                            <h4>Support</h4>
+                            <a href="#">Help Center</a>
+                            <a href="#faq">FAQ</a>
+                            <a href="#contact">Contact Us</a>
+                        </div>
+                    </div>
+                    <div class="footer-social">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    
+    <script>
+        const lenis = new Lenis({
+          lerp: 0.08, 
+          wheelMultiplier: 1.2,
+          smoothWheel: true,
+        });
+
+        function raf(time) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+        window.platefulLenis = lenis; 
+    </script>
+    <script src="app.js"></script>
+</body>
+</html>
