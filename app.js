@@ -19,6 +19,7 @@ const vueApp = createApp({
           hero: false,
           features: false,
           howItWorks: false,
+          problemSolution: false,
           heroInstance: null,
           featuresInstance: null,
           howItWorksInstance: null
@@ -63,7 +64,7 @@ const vueApp = createApp({
       
       const mainContentCssDelay = 300; 
       const mainContentCssDuration = 800;
-      const heroWordsBuffer = 1500; 
+      const heroWordsBuffer = 1000; 
       const heroWordsAnimationDelay = mainContentCssDelay + mainContentCssDuration + heroWordsBuffer;
 
 
@@ -138,17 +139,27 @@ const vueApp = createApp({
         this.scrollListenersAdded.hero = false;
         this.scrollListenersAdded.features = false;
         this.scrollListenersAdded.howItWorks = false;
+        this.scrollListenersAdded.problemSolution = false;
 
 
-        if (isMobile) {
-             document.querySelectorAll('.features-grid-horizontal .feature-card').forEach(el => {
-                el.classList.add('is-active-scroll');
-             });
-             document.querySelectorAll('.features-grid-horizontal').forEach(el => {
-                if(el) el.style.transform = 'translateX(0px)';
-             });
-            return;
+        const problemSolutionSection = document.querySelector('#about.problem-solution');
+        if (problemSolutionSection && !this.scrollListenersAdded.problemSolution && !isMobile) {
+            if ('IntersectionObserver' in window) {
+                const problemObserver = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                            obs.unobserve(entry.target); 
+                        }
+                    });
+                }, { threshold: 0.25 });
+                problemObserver.observe(problemSolutionSection);
+                this.scrollListenersAdded.problemSolution = true;
+            }
+        } else if (problemSolutionSection && isMobile) {
+             problemSolutionSection.classList.remove('is-visible');
         }
+
 
         const heroSection = document.querySelector('.hero');
         if (heroSection && !this.scrollListenersAdded.hero) {
@@ -183,17 +194,25 @@ const vueApp = createApp({
                 const featuresGridPadding = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--features-grid-padding'));
                 
                 const totalFeaturesGridWidth = (numFeatureCards * featureCardWidth) + ((numFeatureCards - 1) * featureCardGap) + (2 * featuresGridPadding);
-                featuresStickyContainer.style.height = `${100 + (numFeatureCards * 75)}vh`;
 
-                const viewportWidth = window.innerWidth;
-                const initialGridX = (viewportWidth / 2) - (featureCardWidth / 2) - featuresGridPadding;
-                const finalGridX = (viewportWidth / 2) - (totalFeaturesGridWidth - featuresGridPadding - (featureCardWidth / 2));
-                const scrollDistance = initialGridX - finalGridX;
+                if (!isMobile) {
+                    featuresStickyContainer.style.height = `${100 + (numFeatureCards * 75)}vh`;
+                } else {
+                    featuresStickyContainer.style.height = 'auto';
+                }
 
-                featuresGrid.style.transform = `translateX(${initialGridX}px)`;
-                if (featureCards[0]) featureCards[0].classList.add('is-active-scroll');
 
                 const featuresScrollHandler = (e) => {
+                    if (isMobile) {
+                        featuresGrid.style.transform = `translateX(0px)`;
+                        featureCards.forEach(c => c.classList.add('is-active-scroll'));
+                        return;
+                    }
+                    const viewportWidth = window.innerWidth;
+                    const initialGridX = (viewportWidth / 2) - (featureCardWidth / 2) - featuresGridPadding;
+                    const finalGridX = (viewportWidth / 2) - (totalFeaturesGridWidth - featuresGridPadding - (featureCardWidth / 2));
+                    const scrollDistance = initialGridX - finalGridX;
+
                     const rect = featuresStickyContainer.getBoundingClientRect();
                     let progress = 0;
                     if (rect.height > window.innerHeight) {
@@ -229,6 +248,7 @@ const vueApp = createApp({
                     }
                 };
                 window.platefulLenis.on('scroll', featuresScrollHandler);
+                if(isMobile) featuresScrollHandler();
                 this.scrollListenersAdded.featuresInstance = featuresScrollHandler;
                 this.scrollListenersAdded.features = true;
             }
@@ -241,7 +261,12 @@ const vueApp = createApp({
             const numStepCards = stepCards.length;
             if (numStepCards === 0) return;
             
-            howItWorksStickyContainer.style.height = `${100 + numStepCards * 185}vh`;
+            if(!isMobile){
+                howItWorksStickyContainer.style.height = `${100 + numStepCards * 185}vh`;
+            } else {
+                 howItWorksStickyContainer.style.height = 'auto';
+            }
+
 
             const STACK_X_PER_LEVEL = -12; 
             const STACK_Y_PER_LEVEL = -8;  
@@ -252,6 +277,19 @@ const vueApp = createApp({
 
 
             const howItWorksScrollHandler = (e) => {
+                if(isMobile) {
+                    stepCards.forEach(card => {
+                        card.style.opacity = 1;
+                        card.style.transform = 'translate(-50%, -50%) translateX(0px) translateY(0px) scale(1) rotateY(0deg)';
+                        card.style.position = 'relative';
+                        card.style.top = 'auto';
+                        card.style.left = 'auto';
+                        card.style.marginBottom = '1.5rem';
+                    });
+                    if(stepsContainer.parentElement) stepsContainer.parentElement.style.height = 'auto';
+                    return;
+                }
+
                 const rect = howItWorksStickyContainer.getBoundingClientRect();
                 const scrollableHeight = rect.height - window.innerHeight;
                 if (scrollableHeight <= 0) return;
@@ -281,6 +319,11 @@ const vueApp = createApp({
 
 
                 stepCards.forEach((card, i) => {
+                    card.style.position = 'absolute';
+                    card.style.top = '50%';
+                    card.style.left = '50%';
+                    card.style.marginBottom = '0';
+
                     const distanceToCurrentFloat = i - currentGlobalCardValue;
 
                     let tx = distanceToCurrentFloat * STACK_X_PER_LEVEL;
@@ -310,14 +353,17 @@ const vueApp = createApp({
                     card.style.opacity = opacity;
                     card.style.zIndex = zIndex;
                 });
+                 if(stepsContainer.parentElement) stepsContainer.parentElement.style.height = getComputedStyle(document.documentElement).getPropertyValue('--step-card-height');
             };
             window.platefulLenis.on('scroll', howItWorksScrollHandler);
+            if(isMobile) howItWorksScrollHandler();
             this.scrollListenersAdded.howItWorksInstance = howItWorksScrollHandler;
             this.scrollListenersAdded.howItWorks = true;
         }
     },
     initializeScrollRevealAnimations() {
-      if (!('IntersectionObserver' in window) ) { 
+      const isMobile = window.innerWidth <= 768;
+      if (!('IntersectionObserver' in window) || isMobile ) { 
         document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
           el.classList.add('is-visible');
         });
