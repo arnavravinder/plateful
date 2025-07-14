@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plateful Twitter Banner (Safe Layout)</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+          --bg-primary: #FEF9EF;
+          --text-primary: #2c2c2c;
+          --primary: #227C9D;
+          --secondary: #17C3B2;
+          --accent: #FE6D73;
+          --border: #e5e7eb;
+          --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            background-color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            box-sizing: border-box;
+            font-family: 'Figtree', sans-serif;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .banner-container {
+            width: 1500px;
+            height: 500px;
+            background-color: var(--bg-primary);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .content-safe-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            font-size: 8rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 0;
+            line-height: 1;
+        }
+        
+        .tagline {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        
+        .tagline .accent-text {
+            color: var(--accent);
+        }
+        
+        .download-button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 1.1rem;
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-lg);
+            font-family: 'Figtree', sans-serif;
+        }
+
+        .download-button:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+    </style>
+    
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div id="banner-to-capture" class="banner-container">
+            <div class="content-safe-area">
+                <h1 class="logo">Plateful</h1>
+                <p class="tagline">
+                    Reduce Waste. <span class="accent-text">Nourish Communities.</span>
+                </p>
+            </div>
+        </div>
+
+        <button id="download-btn" class="download-button">Download Final Banner</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const downloadButton = document.getElementById('download-btn');
+            const bannerElement = document.getElementById('banner-to-capture');
+
+            downloadButton.addEventListener('click', () => {
+                html2canvas(bannerElement, {
+                    width: 1500,
+                    height: 500,
+                    useCORS: true,
+                    scale: 2 // High resolution output
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = 'plateful-twitter-banner.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

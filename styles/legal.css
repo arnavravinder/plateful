@@ -1,0 +1,46 @@
+.legal-main {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    background-color: var(--bg-secondary);
+}
+
+.legal-main .container {
+    max-width: 800px;
+}
+
+.legal-title {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.last-updated {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+
+.legal-main h2 {
+    font-size: 1.75rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.legal-main p, .legal-main li {
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.legal-main ul {
+    list-style-position: inside;
+    padding-left: 1rem;
+}
+
+.logo-link {
+    text-decoration: none;
+}

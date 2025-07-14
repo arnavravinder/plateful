@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/css/intlTelInput.css"/>
+    <link rel="stylesheet" href="styles/style.css">
     <style>
         html.lenis {
           height: auto;
@@ -42,6 +43,46 @@
     </div>
 
     <div id="app" class="main-content">
+        <teleport to="body">
+            <div id="login-modal" class="login-modal" :class="{ active: loginModalOpen }" v-if="loginModalOpen">
+                <div class="login-modal-content">
+                    <button class="modal-close" @click="closeLoginModal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <h2 class="modal-title">Welcome Back</h2>
+                    <p class="modal-subtitle">Sign in to continue your journey</p>
+                    
+                    <div class="login-options">
+                        <button type="button" class="auth-btn google" @click="signInWithGoogle">
+                            <i class="fab fa-google"></i> Continue with Google
+                        </button>
+                        <button type="button" class="auth-btn twitter" @click="signInWithTwitter">
+                            <i class="fab fa-x-twitter"></i> Continue with X
+                        </button>
+                    </div>
+                    
+                    <div class="divider"><span>or</span></div>
+                    
+                    <div class="phone-auth-section">
+                        <div class="phone-input-wrapper" v-if="!showOtpInput">
+                            <input type="tel" id="modal-phone" placeholder="Phone number">
+                            <button @click="sendOtp" class="cta-btn primary">Send Code</button>
+                        </div>
+                        <div id="modal-recaptcha"></div>
+                        <div class="otp-input-wrapper" v-if="showOtpInput">
+                            <input type="text" v-model="otpCode" placeholder="6-digit code" maxlength="6">
+                            <button @click="verifyOtp" class="cta-btn primary">Verify</button>
+                        </div>
+                        <p class="error-message" v-if="loginError">{{ loginError }}</p>
+                    </div>
+                    
+                    <p class="signup-prompt">
+                        New to Plateful? <a href="onboarding.html">Sign up here</a>
+                    </p>
+                </div>
+            </div>
+        </teleport>
+
         <nav class="navbar">
             <div class="nav-container">
                 <div class="nav-brand">
@@ -53,7 +94,21 @@
                         <a href="#features">Features</a>
                         <a href="#how-it-works">How It Works</a>
                         <a href="#faq">FAQ</a>
-                        <a href="#login" class="login-link">Login</a>
+                        <a href="#" class="login-link" @click.prevent="handleLoginClick" v-if="!isLoggedIn">Login</a>
+                        <div class="user-dropdown" v-if="isLoggedIn">
+                            <button class="user-dropdown-trigger" @click="toggleUserDropdown">
+                                <img :src="currentUser.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'User')" alt="User" class="user-avatar">
+                                <span class="user-name">Hello, {{ currentUser.displayName ? currentUser.displayName.split(' ')[0] : 'User' }}</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="user-dropdown-menu" :class="{ active: userDropdownOpen }">
+                                <a href="#profile"><i class="fas fa-user"></i> Profile</a>
+                                <a href="#orders"><i class="fas fa-receipt"></i> My Orders</a>
+                                <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
+                                <hr>
+                                <a href="#" @click.prevent="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                        </div>
                     </div>
                     <button @click="toggleMobileMenu" class="mobile-menu-btn" aria-label="Toggle menu">
                         <i class="fas fa-bars"></i>
@@ -65,8 +120,13 @@
                 <a href="#features" @click="closeMobileMenuAndScroll('#features')">Features</a>
                 <a href="#how-it-works" @click="closeMobileMenuAndScroll('#how-it-works')">How It Works</a>
                 <a href="#faq" @click="closeMobileMenuAndScroll('#faq')">FAQ</a>
-                <a href="#login" @click="closeMobileMenuAndScroll('#login')">Login</a>
-                <button class="cta-btn restaurant-signup" @click="closeMobileMenuAndScroll('#contact')">Restaurant Sign-up</button>
+                <a href="#" @click.prevent="handleLoginClick" v-if="!isLoggedIn">Login</a>
+                <div v-if="isLoggedIn" class="mobile-user-info">
+                    <img :src="currentUser.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'User')" alt="User" class="user-avatar-mobile">
+                    <span>{{ currentUser.displayName || 'User' }}</span>
+                    <a href="#" @click.prevent="logout" class="mobile-logout">Logout</a>
+                </div>
+                <a href="onboarding.html" class="cta-btn restaurant-signup" style="display: block; text-align: center; margin-top: 1rem;">Restaurant Sign-up</a>
             </div>
         </nav>
 
@@ -91,14 +151,14 @@
                             Join the movement against food waste.
                         </p>
                         <div class="hero-actions">
-                            <button class="cta-btn primary">
+                             <a href="onboarding.html" class="cta-btn primary">
                                 <i class="fas fa-search"></i>
                                 Find Food Near You
-                            </button>
-                            <button class="cta-btn secondary">
+                            </a>
+                            <a href="onboarding.html" class="cta-btn secondary">
                                 <i class="fas fa-store"></i>
                                 Restaurant Sign-up
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <div class="hero-visual">
@@ -191,14 +251,14 @@
                         <h2 class="cta-title">Ready to Make an Impact?</h2>
                         <p class="cta-subtitle">Join thousands reducing food waste across India</p>
                         <div class="cta-actions">
-                            <button class="cta-btn primary large">
+                            <a href="onboarding.html" class="cta-btn primary large">
                                 <i class="fas fa-search"></i>
                                 Explore Platform
-                            </button>
-                            <button class="cta-btn secondary large">
+                            </a>
+                            <a href="onboarding.html" class="cta-btn secondary large">
                                 <i class="fas fa-utensils"></i>
                                 Partner with Us
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -246,8 +306,11 @@
         </footer>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/js/intlTelInput.min.js"></script>
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-    
     <script>
         const lenis = new Lenis({
           lerp: 0.08, 
@@ -262,6 +325,6 @@
         requestAnimationFrame(raf);
         window.platefulLenis = lenis; 
     </script>
-    <script src="app.js"></script>
+    <script src="scripts/app.js"></script>
 </body>
 </html>

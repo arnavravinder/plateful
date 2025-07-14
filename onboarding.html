@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Plateful</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/css/intlTelInput.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="styles/onboarding.css">
+</head>
+<body>
+    <div class="onboarding-container">
+        <a href="index.html" class="home-link" aria-label="Back to home">
+            <i class="fas fa-arrow-left"></i> Plateful
+        </a>
+
+        <div class="progress-bar">
+            <div class="progress-bar-inner"></div>
+        </div>
+
+        <div class="form-wrapper">
+            <form id="onboarding-form" novalidate>
+                
+                <div class="form-step active" data-step="0">
+                    <h1 class="step-title" data-aos="fade-up">Join the Plateful Movement</h1>
+                    <p class="step-subtitle" data-aos="fade-up" data-aos-delay="100">Sign in to start reducing waste and nourishing your community.</p>
+                    <div class="auth-options" data-aos="fade-up" data-aos-delay="200">
+                        <button type="button" class="auth-btn google" id="google-signin">
+                            <i class="fab fa-google"></i> Continue with Google
+                        </button>
+                        <button type="button" class="auth-btn twitter" id="twitter-signin">
+                            <i class="fab fa-x-twitter"></i> Continue with X
+                        </button>
+                    </div>
+                    <div class="divider" data-aos="fade-up" data-aos-delay="300"><span>or</span></div>
+                    <div class="phone-auth-container" data-aos="fade-up" data-aos-delay="400">
+                         <div id="phone-input-group" class="input-group phone-group">
+                            <input id="phone" type="tel" name="phone">
+                            <button type="button" id="send-otp-btn" class="cta-btn primary">Send Code</button>
+                        </div>
+                        <div id="recaptcha-container"></div>
+                        <div id="otp-input-group" class="input-group hidden">
+                            <input type="text" id="otp" placeholder="6-digit code" maxlength="6">
+                            <button type="button" id="verify-otp-btn" class="cta-btn primary">Verify</button>
+                        </div>
+                        <p id="auth-error" class="error-message"></p>
+                    </div>
+                </div>
+
+                <div class="form-step" data-step="1">
+                    <h2 class="step-title" data-aos="fade-up">Welcome! What should we call you?</h2>
+                    <div class="input-group" data-aos="fade-up" data-aos-delay="100">
+                        <input type="text" id="full-name" name="fullname" placeholder="Enter your full name" required>
+                        <button type="button" class="next-btn cta-btn primary"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                    <p class="error-message"></p>
+                </div>
+                
+                <div class="form-step" data-step="2">
+                    <h2 class="step-title" data-aos="fade-up">What's your email address?</h2>
+                    <div class="input-group" data-aos="fade-up" data-aos-delay="100">
+                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
+                        <button type="button" class="next-btn cta-btn primary"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                     <p class="error-message"></p>
+                </div>
+
+                <div class="form-step" data-step="3">
+                    <h2 class="step-title" data-aos="fade-up">And your primary address?</h2>
+                    <p class="step-subtitle" data-aos="fade-up" data-aos-delay="100">This helps us find surplus food opportunities near you.</p>
+                    <div class="input-group" data-aos="fade-up" data-aos-delay="200">
+                        <textarea id="address" name="address" placeholder="Enter your full address" rows="3" required></textarea>
+                        <button type="button" class="next-btn cta-btn primary"><i class="fas fa-arrow-right"></i></button>
+                    </div>
+                     <p class="error-message"></p>
+                </div>
+
+                <div class="form-step" data-step="4">
+                    <div class="final-step-content">
+                        <div class="icon-celebrate" data-aos="zoom-in">
+                            <i class="fas fa-party-horn"></i>
+                            <div class="checkmark-overlay">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        <h1 class="step-title" data-aos="fade-up" data-aos-delay="100">All Set, <span id="final-name"></span>!</h1>
+                        <p class="step-subtitle" data-aos="fade-up" data-aos-delay="200">You're now part of a community making a real difference. Welcome aboard!</p>
+                        <a href="index.html" class="cta-btn primary large" data-aos="fade-up" data-aos-delay="300">Explore Plateful <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/19.2.16/js/intlTelInput.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="scripts/onboarding.js"></script>
+</body>
+</html>
