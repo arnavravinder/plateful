@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FF2D55">
+  <title>Plateful - Bengaluru's Surprise Plate Marketplace</title>
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="stylesheet" href="/styles/style.css">
+  <script src="https://unpkg.com/phosphor-icons"></script>
+</head>
+<body>
+  <div class="layout">
+    <div class="landing">
+      <header class="landing__header">
+        <div class="landing__logo">Plateful</div>
+      </header>
+
+      <section class="landing__hero">
+        <h1 class="landing__title">Surprise plates.<br>Bengaluru prices.</h1>
+        <p class="landing__subtitle">Save restaurants. Save money. Pickup local surplus food.</p>
+
+        <div class="landing__cta">
+          <a href="/customer-login.html" class="btn btn--primary btn--full">Find Plates</a>
+          <a href="/restaurant-onboarding.html" class="btn btn--secondary btn--full">I'm a Restaurant</a>
+        </div>
+      </section>
+
+      <section class="landing__features">
+        <div class="feature">
+          <div class="feature__icon">🍽️</div>
+          <h3 class="feature__title">Surprise Plates</h3>
+          <p class="feature__text">Mystery meals from top restaurants at 50% off</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature__icon">📍</div>
+          <h3 class="feature__title">Within 5km</h3>
+          <p class="feature__text">Only see restaurants near you in Bengaluru</p>
+        </div>
+
+        <div class="feature">
+          <div class="feature__icon">⚡</div>
+          <h3 class="feature__title">Instant Pickup</h3>
+          <p class="feature__text">Reserve, show QR, pay, collect</p>
+        </div>
+      </section>
+
+      <section class="landing__how">
+        <h2 class="landing__section-title">How it works</h2>
+
+        <div class="step">
+          <div class="step__number">1</div>
+          <div class="step__content">
+            <h4 class="step__title">Browse plates near you</h4>
+            <p class="step__text">See veg & non-veg surprise plates from restaurants within 5km</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step__number">2</div>
+          <div class="step__content">
+            <h4 class="step__title">Reserve your plate</h4>
+            <p class="step__text">Tap to reserve - get instant QR code confirmation</p>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step__number">3</div>
+          <div class="step__content">
+            <h4 class="step__title">Show & pay at restaurant</h4>
+            <p class="step__text">Show QR at restaurant, scan their UPI, collect food</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="landing__footer">
+        <p>&copy; 2025 Plateful. Made in Bengaluru.</p>
+      </footer>
+    </div>
+  </div>
+
+  <style>
+    .landing {
+      padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .landing__header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .landing__logo {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+    }
+
+    .landing__hero {
+      text-align: center;
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .landing__title {
+      font-size: 2.5rem;
+      margin-bottom: var(--spacing-md);
+      line-height: 1.1;
+    }
+
+    .landing__subtitle {
+      font-size: 1.125rem;
+      color: #666;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .landing__cta {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+      margin-top: var(--spacing-xl);
+    }
+
+    .landing__features {
+      display: grid;
+      gap: var(--spacing-lg);
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .feature {
+      text-align: center;
+      padding: var(--spacing-lg);
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
+
+    .feature__icon {
+      font-size: 3rem;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .feature__title {
+      font-size: 1.25rem;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .feature__text {
+      color: #666;
+      font-size: 0.875rem;
+    }
+
+    .landing__how {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .landing__section-title {
+      font-size: 2rem;
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .step {
+      display: flex;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-lg);
+      padding: var(--spacing-lg);
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
+
+    .step__number {
+      width: 48px;
+      height: 48px;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .step__content {
+      flex: 1;
+    }
+
+    .step__title {
+      font-size: 1.125rem;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .step__text {
+      color: #666;
+      font-size: 0.875rem;
+    }
+
+    .landing__footer {
+      text-align: center;
+      padding: var(--spacing-xl) 0;
+      color: #999;
+      font-size: 0.875rem;
+    }
+  </style>
+</body>
+</html>

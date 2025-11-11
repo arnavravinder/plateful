@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FF2D55">
+  <title>Login - Plateful</title>
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="stylesheet" href="/styles/style.css">
+  <script src="https://unpkg.com/phosphor-icons"></script>
+</head>
+<body>
+  <div class="layout">
+    <div class="auth-screen">
+      <h1 class="auth-screen__logo">Plateful</h1>
+      <p class="auth-screen__tagline">Login to find surprise plates</p>
+
+      <div class="auth-screen__form" id="loginForm">
+        <div class="form-group">
+          <label class="form-group__label">Phone Number</label>
+          <div style="display: flex; gap: 8px;">
+            <input
+              type="text"
+              value="+91"
+              class="input"
+              style="width: 60px; flex-shrink: 0;"
+              readonly>
+            <input
+              id="phoneInput"
+              type="tel"
+              placeholder="9876543210"
+              class="input"
+              style="flex: 1;"
+              maxlength="10">
+          </div>
+          <p class="form-group__hint">We'll send you a one-time code</p>
+        </div>
+
+        <div id="recaptcha-container"></div>
+
+        <button id="sendOtpBtn" class="btn btn--primary btn--full">
+          Send OTP
+        </button>
+      </div>
+
+      <div class="auth-screen__form" id="otpForm" style="display: none;">
+        <div class="form-group">
+          <label class="form-group__label">Enter OTP</label>
+          <input
+            id="otpInput"
+            type="text"
+            placeholder="123456"
+            class="input"
+            maxlength="6">
+          <p class="form-group__hint">Check your SMS for the code</p>
+        </div>
+
+        <button id="verifyOtpBtn" class="btn btn--primary btn--full">
+          Verify & Continue
+        </button>
+
+        <button id="backBtn" class="btn btn--secondary btn--full mt-md">
+          Back
+        </button>
+      </div>
+
+      <p class="text-center mt-lg" style="font-size: 0.875rem; color: #666;">
+        <a href="/landing.html" style="color: var(--color-primary);">← Back to home</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCMUs3OBfoITQ5Z24xPw11OtTCgD1ZgvD8",
+      authDomain: "tryplateful.firebaseapp.com",
+      projectId: "tryplateful",
+      storageBucket: "tryplateful.firebasestorage.app",
+      messagingSenderId: "382113263079",
+      appId: "1:382113263079:web:95b3518ced14608d2e6142"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const phoneInput = document.getElementById('phoneInput');
+    const otpInput = document.getElementById('otpInput');
+    const sendOtpBtn = document.getElementById('sendOtpBtn');
+    const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+    const backBtn = document.getElementById('backBtn');
+    const loginForm = document.getElementById('loginForm');
+    const otpForm = document.getElementById('otpForm');
+
+    let confirmationResult = null;
+    let appVerifier = null;
+
+    window.addEventListener('load', () => {
+      appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        size: 'invisible',
+        callback: () => {}
+      });
+    });
+
+    sendOtpBtn.addEventListener('click', async () => {
+      const phone = phoneInput.value.trim();
+      if (phone.length !== 10) {
+        alert('Please enter a valid 10-digit phone number');
+        return;
+      }
+
+      sendOtpBtn.disabled = true;
+      sendOtpBtn.textContent = 'Sending...';
+
+      try {
+        confirmationResult = await auth.signInWithPhoneNumber('+91' + phone, appVerifier);
+        loginForm.style.display = 'none';
+        otpForm.style.display = 'block';
+      } catch (error) {
+        console.error('Error sending OTP:', error);
+        alert('Failed to send OTP: ' + error.message);
+        sendOtpBtn.disabled = false;
+        sendOtpBtn.textContent = 'Send OTP';
+      }
+    });
+
+    verifyOtpBtn.addEventListener('click', async () => {
+      const otp = otpInput.value.trim();
+      if (otp.length !== 6) {
+        alert('Please enter a valid 6-digit OTP');
+        return;
+      }
+
+      verifyOtpBtn.disabled = true;
+      verifyOtpBtn.textContent = 'Verifying...';
+
+      try {
+        await confirmationResult.confirm(otp);
+        window.location.href = '/index.html';
+      } catch (error) {
+        console.error('Error verifying OTP:', error);
+        alert('Invalid OTP. Please try again.');
+        verifyOtpBtn.disabled = false;
+        verifyOtpBtn.textContent = 'Verify & Continue';
+      }
+    });
+
+    backBtn.addEventListener('click', () => {
+      loginForm.style.display = 'block';
+      otpForm.style.display = 'none';
+      otpInput.value = '';
+      sendOtpBtn.disabled = false;
+      sendOtpBtn.textContent = 'Send OTP';
+    });
+
+    otpInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        verifyOtpBtn.click();
+      }
+    });
+
+    phoneInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendOtpBtn.click();
+      }
+    });
+  </script>
+</body>
+</html>

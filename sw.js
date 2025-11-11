@@ -2,15 +2,16 @@ const CACHE_NAME = 'plateful-v1';
 const urlsToCache = [
   '/',
   '/styles/style.css',
-  '/scripts/app.js',
-  '/manifest.json'
+  '/scripts/app.js'
 ];
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
+      .catch(err => console.log('Cache install error:', err))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('fetch', event => {
