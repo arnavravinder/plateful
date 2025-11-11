@@ -682,7 +682,98 @@ ul, ol {
 .mb-xl { margin-bottom: var(--spacing-xl); }
 
 @media (min-width: 768px) {
+  .layout {
+    max-width: 1200px;
+    box-shadow: 0 0 0 1px var(--color-border);
+  }
+
+  .container {
+    padding: var(--spacing-xl);
+  }
+
+  .header {
+    padding: var(--spacing-lg) var(--spacing-xl);
+  }
+
   .grid--2 {
     grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+  }
+
+  .card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    opacity: 1;
+  }
+
+  .plate-hero {
+    aspect-ratio: 16/9;
+  }
+
+  .plate-detail {
+    padding: var(--spacing-2xl) var(--spacing-xl);
+  }
+
+  .plate-detail__title {
+    font-size: 3rem;
+  }
+
+  .plate-detail__price {
+    font-size: 3rem;
+  }
+
+  .modal {
+    align-items: center;
+  }
+
+  .modal__content {
+    max-width: 600px;
+    border-radius: var(--radius-lg);
+  }
+
+  .dashboard-section {
+    padding: var(--spacing-xl);
+  }
+
+  .auth-screen {
+    padding: var(--spacing-2xl);
+  }
+
+  .auth-screen__form {
+    max-width: 420px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid--2 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  h2 {
+    font-size: 2.5rem;
+  }
+
+  .header__title {
+    font-size: 2rem;
+  }
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .icon-btn:hover {
+    background-color: var(--color-bg);
+    transform: scale(1.1);
   }
 }

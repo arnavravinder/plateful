@@ -201,6 +201,105 @@
       color: #999;
       font-size: 0.875rem;
     }
+
+    @media (min-width: 768px) {
+      .landing {
+        padding: var(--spacing-2xl) var(--spacing-xl);
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .landing__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .landing__logo {
+        font-size: 2rem;
+      }
+
+      .landing__hero {
+        padding: var(--spacing-2xl) 0;
+      }
+
+      .landing__title {
+        font-size: 4rem;
+      }
+
+      .landing__subtitle {
+        font-size: 1.5rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .landing__cta {
+        flex-direction: row;
+        justify-content: center;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .landing__cta .btn {
+        flex: 1;
+      }
+
+      .landing__features {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-xl);
+      }
+
+      .feature {
+        padding: var(--spacing-xl);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .feature:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      }
+
+      .feature__icon {
+        font-size: 4rem;
+      }
+
+      .feature__title {
+        font-size: 1.5rem;
+      }
+
+      .feature__text {
+        font-size: 1rem;
+      }
+
+      .landing__section-title {
+        font-size: 2.5rem;
+      }
+
+      .step {
+        padding: var(--spacing-xl);
+        transition: transform 0.2s ease;
+      }
+
+      .step:hover {
+        transform: translateX(8px);
+      }
+
+      .step__number {
+        width: 64px;
+        height: 64px;
+        font-size: 2rem;
+      }
+
+      .step__title {
+        font-size: 1.5rem;
+      }
+
+      .step__text {
+        font-size: 1rem;
+      }
+    }
   </style>
 </body>
 </html>
