@@ -1,0 +1,2 @@
+This is a placeholder for icon-512.png
+Create a 512x512 PNG icon with the Plateful logo
