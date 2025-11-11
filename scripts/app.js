@@ -115,9 +115,6 @@ createApp({
                     <span :class="['badge', plate.veg ? 'badge--veg' : 'badge--non-veg']">
                       {{plate.veg ? 'VEG' : 'NON-VEG'}}
                     </span>
-                    <span v-if="plate.deliveryNow" class="badge badge--delivery">
-                      READY IN 10 MINS
-                    </span>
                   </div>
                 </div>
               </div>
@@ -167,11 +164,6 @@ createApp({
             <div class="plate-detail__header">
               <h1 class="plate-detail__title">{{plate.name}}</h1>
               <div class="plate-detail__price">₹{{plate.price}}</div>
-              <div class="plate-detail__badges">
-                <span v-if="plate.deliveryNow" class="badge badge--delivery">
-                  READY IN 10 MINS
-                </span>
-              </div>
             </div>
 
             <div v-if="restaurant" class="plate-detail__section">
@@ -298,7 +290,6 @@ createApp({
           name: '',
           price: '',
           veg: true,
-          deliveryNow: false,
           photoUrl: '',
           quantity: 1
         });
@@ -338,7 +329,6 @@ createApp({
               name: '',
               price: '',
               veg: true,
-              deliveryNow: false,
               photoUrl: '',
               quantity: 1
             };
@@ -496,16 +486,6 @@ createApp({
                       <div class="toggle__slider"></div>
                     </div>
                     <span class="toggle__label">Vegetarian</span>
-                  </label>
-                </div>
-
-                <div class="form-group">
-                  <label class="toggle">
-                    <input type="checkbox" v-model="formData.deliveryNow" style="display: none;">
-                    <div :class="['toggle__switch', formData.deliveryNow && 'toggle__switch--active']">
-                      <div class="toggle__slider"></div>
-                    </div>
-                    <span class="toggle__label">Ready in 10 mins</span>
                   </label>
                 </div>
 
