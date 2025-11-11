@@ -40,18 +40,16 @@ firebase login
 
 ### 2. Seed Firestore Database
 
-1. Open Firebase Console: https://console.firebase.google.com/project/plateful-firebase
-2. Go to Firestore Database
-3. Run the seed script to populate data:
+**Easy way:**
+1. Run a local server: `python -m http.server 8000`
+2. Open http://localhost:8000/seed-firestore.html
+3. Click "Seed Firestore" button
+4. Done! 8 restaurants + 14 plates added
 
-```javascript
-// Copy data from scripts/seed.js and add to Firestore manually or via script
-```
-
-Add collections:
-- `restaurants` - 8 Bengaluru restaurants
-- `plates` - 14 surprise plates
-- `reservations` - Empty (populated by users)
+This creates:
+- `restaurants` collection - 8 Bengaluru restaurants (Truffles, Vidyarthi Bhavan, CTR, etc.)
+- `plates` collection - 14 surprise plates with real images
+- `reservations` collection - Created automatically when users reserve
 
 ### 3. Configure Firebase Authentication
 
