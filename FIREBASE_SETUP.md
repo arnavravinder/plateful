@@ -1,13 +1,13 @@
 # Firebase Setup Guide for Plateful
 
 ## Prerequisites
-- Firebase project: `plateful-firebase` (already created)
+- Firebase project: `tryplateful` (already created)
 - Google account with Firebase access
 
 ## Required Firebase Services
 
 ### 1. Firestore Database
-**Enable:** [https://console.firebase.google.com/project/plateful-firebase/firestore](https://console.firebase.google.com/project/plateful-firebase/firestore)
+**Enable:** [https://console.firebase.google.com/project/tryplateful/firestore](https://console.firebase.google.com/project/tryplateful/firestore)
 
 1. Click **"Create database"**
 2. Choose **"Start in production mode"**
@@ -39,7 +39,7 @@ service cloud.firestore {
 ```
 
 ### 2. Authentication
-**Enable:** [https://console.firebase.google.com/project/plateful-firebase/authentication](https://console.firebase.google.com/project/plateful-firebase/authentication)
+**Enable:** [https://console.firebase.google.com/project/tryplateful/authentication](https://console.firebase.google.com/project/tryplateful/authentication)
 
 **Required Providers:**
 
@@ -55,38 +55,8 @@ service cloud.firestore {
 - Scroll to **Phone numbers for testing**
 - Add test numbers like: `+919999999999` with code `123456`
 
-### 3. Storage
-**Enable:** [https://console.firebase.google.com/project/plateful-firebase/storage](https://console.firebase.google.com/project/plateful-firebase/storage)
-
-1. Click **"Get started"**
-2. Choose **"Start in production mode"**
-3. Select same location as Firestore
-4. Click **"Done"**
-
-**Security Rules to add:**
-```javascript
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /plate-photos/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null
-        && request.resource.size < 5 * 1024 * 1024
-        && request.resource.contentType.matches('image/.*');
-    }
-
-    match /upi-qrs/{allPaths=**} {
-      allow read: if true;
-      allow write: if request.auth != null
-        && request.resource.size < 2 * 1024 * 1024
-        && request.resource.contentType.matches('image/.*');
-    }
-  }
-}
-```
-
-### 4. Hosting
-**Enable:** [https://console.firebase.google.com/project/plateful-firebase/hosting](https://console.firebase.google.com/project/plateful-firebase/hosting)
+### 3. Hosting
+**Enable:** [https://console.firebase.google.com/project/tryplateful/hosting](https://console.firebase.google.com/project/tryplateful/hosting)
 
 1. Click **"Get started"**
 2. Follow the prompts (we'll deploy via CLI)
@@ -95,12 +65,12 @@ service firebase.storage {
 **Custom domain (already configured):**
 - plateful.in → should be connected already
 
-### 5. Enable Billing (Required for Phone Auth)
+### 4. Enable Billing (Required for Phone Auth)
 
 **Only if you want phone authentication:**
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/billing)
-2. Link project `plateful-firebase` to billing account
+2. Link project `tryplateful` to billing account
 3. Free tier includes:
    - 10K verifications/month for phone auth
    - 50K reads, 20K writes/day for Firestore
@@ -123,16 +93,20 @@ service firebase.storage {
 ☐ Enable Phone provider
 ☐ Add test numbers (optional): +919999999999 → 123456
 
-# 3. Enable Storage
-☐ Create default bucket
-☐ Add security rules above
-
-# 4. Enable Hosting
+# 3. Enable Hosting
 ☐ Click "Get started"
 
-# 5. Optional: Enable Billing
+# 4. Optional: Enable Billing
 ☐ Link billing account (for real phone auth)
 ```
+
+## Image Uploads
+
+**We use ImgBB (free) instead of Firebase Storage:**
+- Restaurant dashboard supports direct image upload
+- Images automatically uploaded to ImgBB
+- API key already configured: `5300f0c46f6543615dd9aa89d278febc`
+- Free tier: Unlimited uploads
 
 ## After Enabling Services
 

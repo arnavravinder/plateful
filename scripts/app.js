@@ -1,18 +1,19 @@
 const { createApp, ref, computed, onMounted, watch } = Vue;
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBzme7aDxUAvWz1FG-8try_mVH4-ulJB50",
-  authDomain: "plateful-firebase.firebaseapp.com",
-  projectId: "plateful-firebase",
-  storageBucket: "plateful-firebase.firebasestorage.app",
-  messagingSenderId: "282607147046",
-  appId: "1:282607147046:web:0f9cb2659e258393a8eee7"
+  apiKey: "AIzaSyCMUs3OBfoITQ5Z24xPw11OtTCgD1ZgvD8",
+  authDomain: "tryplateful.firebaseapp.com",
+  projectId: "tryplateful",
+  storageBucket: "tryplateful.firebasestorage.app",
+  messagingSenderId: "382113263079",
+  appId: "1:382113263079:web:95b3518ced14608d2e6142"
 };
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-const storage = firebase.storage();
+
+const IMGBB_API_KEY = '5300f0c46f6543615dd9aa89d278febc';
 
 const BENGALURU_CENTER = { lat: 12.9716, lng: 77.5946 };
 const MAX_DISTANCE_KM = 5;
@@ -293,6 +294,32 @@ createApp({
           photoUrl: '',
           quantity: 1
         });
+        const uploadingImage = ref(false);
+
+        const uploadImage = async (event) => {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          uploadingImage.value = true;
+          const formDataImg = new FormData();
+          formDataImg.append('image', file);
+          formDataImg.append('key', IMGBB_API_KEY);
+
+          try {
+            const response = await fetch('https://api.imgbb.com/1/upload', {
+              method: 'POST',
+              body: formDataImg
+            });
+            const data = await response.json();
+            if (data.success) {
+              formData.value.photoUrl = data.data.url;
+            }
+          } catch (error) {
+            console.error('Upload error:', error);
+          } finally {
+            uploadingImage.value = false;
+          }
+        };
 
         const handleAuth = async () => {
           if (!phone.value) return;
@@ -378,6 +405,8 @@ createApp({
           restaurantPlates,
           showModal,
           formData,
+          uploadingImage,
+          uploadImage,
           openModal,
           savePlate,
           toggleAvailability
@@ -475,8 +504,18 @@ createApp({
                 </div>
 
                 <div class="form-group">
-                  <label class="form-group__label">Photo URL</label>
-                  <input v-model="formData.photoUrl" type="url" class="input">
+                  <label class="form-group__label">Plate Photo</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    @change="uploadImage"
+                    class="input"
+                    style="padding: 8px;">
+                  <p v-if="uploadingImage" class="form-group__hint">Uploading...</p>
+                  <img
+                    v-if="formData.photoUrl"
+                    :src="formData.photoUrl"
+                    style="width: 100%; max-width: 200px; margin-top: 8px; border-radius: 8px;">
                 </div>
 
                 <div class="form-group">
